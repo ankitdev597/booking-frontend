@@ -43,7 +43,7 @@ On-Demand Service Slot Lock & Dispatch Engine — React + TypeScript frontend.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/booking-frontend.git
+git clone https://github.com/ankitdev597/booking-frontend.git
 cd booking-frontend
 ```
 
@@ -52,6 +52,8 @@ cd booking-frontend
 ```bash
 npm install
 ```
+
+> `node_modules/` is gitignored and will never be committed. Always run `npm install` after cloning.
 
 ### 3. Environment setup
 
@@ -120,35 +122,58 @@ Then open `http://localhost:5173`
 
 ---
 
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `VITE_API_BASE_URL` | `http://localhost:8000/api` | Backend API base URL |
+
+---
+
+## Gitignore
+
+The following are ignored and never committed:
+
+```
+node_modules/
+dist/
+.env
+.env.local
+coverage/
+.vite/
+```
+
+---
+
 ## Project Structure
 
 ```
 src/
-├── api/                  # Axios API calls
-│   ├── axios.ts          # Axios instance with interceptors
-│   ├── authApi.ts        # Register, login, logout
-│   ├── bookingApi.ts     # Reserve, confirm, cancel, my bookings
-│   ├── slotApi.ts        # Fetch available slots
-│   └── staffApi.ts       # Fetch staff list
+├── api/                      # Axios API calls
+│   ├── axios.ts              # Axios instance with auth interceptor + 401 handler
+│   ├── authApi.ts            # Register, login, logout
+│   ├── bookingApi.ts         # Reserve, confirm, cancel, my bookings
+│   ├── slotApi.ts            # Fetch available slots
+│   └── staffApi.ts           # Fetch staff list
 ├── components/
-│   ├── auth/             # LoginForm, RegisterForm
-│   ├── booking/          # StaffSelector, DateSelector, SlotList, SlotCard, ReservationCountdown
-│   └── common/           # Loader, ErrorMessage, ConfirmDialog
+│   ├── auth/                 # LoginForm, RegisterForm
+│   ├── booking/              # StaffSelector, DateSelector, SlotList, SlotCard, ReservationCountdown
+│   └── common/               # Loader, ErrorMessage, ConfirmDialog
 ├── context/
-│   └── AuthContext.tsx   # Auth state (login, register, logout)
+│   └── AuthContext.tsx       # Auth state (login, register, logout, persist token)
 ├── hooks/
-│   ├── useAvailableSlots.ts  # TanStack Query for slots
-│   ├── useCountdown.ts       # Interval-based countdown (no memory leaks)
+│   ├── useAvailableSlots.ts  # TanStack Query — slots with 30s auto-refresh
+│   ├── useCountdown.ts       # Interval countdown, no memory leaks, server timestamp
 │   └── useReservation.ts     # Reserve, confirm, cancel state machine
 ├── pages/
 │   ├── AuthPage.tsx          # Login / Register page
-│   ├── BookingPage.tsx       # Main booking flow
-│   └── MyBookingsPage.tsx    # User's reservation history
+│   ├── BookingPage.tsx       # Main booking flow with tab navigation
+│   └── MyBookingsPage.tsx    # User's reservation history with pagination
 ├── types/
-│   └── booking.ts            # TypeScript interfaces
+│   └── booking.ts            # TypeScript interfaces for all API shapes
 └── utils/
-    ├── date.ts               # formatTime, formatCountdown, todayString
-    └── errorHandler.ts       # extractErrorMessage, isConflictError
+    ├── date.ts               # formatTime, formatCountdown, todayString, generateIdempotencyKey
+    └── errorHandler.ts       # extractErrorMessage, extractValidationErrors, isConflictError
 ```
 
 ---
@@ -169,18 +194,6 @@ src/
 
 ---
 
-## Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `VITE_API_BASE_URL` | `http://localhost:8000/api` | Backend API base URL |
-
----
-
 ## License
 
 MIT
-# booking-frontend
-# booking-frontend
-# booking-frontend
-# booking-frontend
